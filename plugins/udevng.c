@@ -193,6 +193,46 @@ static gboolean setup_hso(struct modem_info *modem)
 	return TRUE;
 }
 
+static gboolean setup_qmiwwan(struct modem_info *modem)
+{
+	const char *qmi = NULL, *net = NULL;
+	const char *gps = NULL;
+	GSList *list;
+
+	DBG("%s", modem->syspath);
+
+	for (list = modem->devices; list; list = list->next) {
+		struct device_info *info = list->data;
+
+		DBG("%s %s %s %s %s", info->devnode, info->interface,
+				info->number, info->label, info->subsystem);
+
+		if (!g_strcmp0(info->label, "qmi")) {
+			if (!g_strcmp0(info->subsystem, "usbmisc"))
+					qmi = info->devnode;
+			else if (!g_strcmp0(info->subsystem, "net"))
+					net = info->devnode;
+		} else if (!g_strcmp0(info->label, "gps")) {
+			gps = info->devnode;
+		}
+	}
+
+	if (qmi == NULL || net == NULL)
+		return FALSE;
+
+	DBG("qmi=%s net=%s gps=%s", qmi, net, gps);
+
+	ofono_modem_set_driver(modem->modem, "gobi");
+
+	ofono_modem_set_string(modem->modem, "Device", qmi);
+	ofono_modem_set_string(modem->modem, "NetworkInterface", net);
+	if (gps)
+		ofono_modem_set_string(modem->modem, "GPS", gps);
+
+	return TRUE;
+}
+
+
 static gboolean setup_gobi(struct modem_info *modem)
 {
 	const char *qmi = NULL, *mdm = NULL, *net = NULL;
@@ -1052,6 +1092,7 @@ static struct {
 	{ "isiusb",	setup_isi,	"type"			},
 	{ "mbm",	setup_mbm,	"device/interface"	},
 	{ "hso",	setup_hso,	"hsotype"		},
+	{ "qmiwwan",	setup_qmiwwan	},
 	{ "gobi",	setup_gobi	},
 	{ "sierra",	setup_sierra	},
 	{ "huawei",	setup_huawei	},
