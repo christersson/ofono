@@ -82,7 +82,7 @@ static gboolean setup_isi(struct modem_info *modem)
 
 	DBG("%s", modem->syspath);
 
-	for (list = modem->devices; list; list = list->next) {
+	for (list = modem->devices; list; list = g_slist_next(list)) {
 		struct device_info *info = list->data;
 
 		DBG("%s %s %s %s %s", info->devnode, info->interface,
@@ -114,7 +114,7 @@ static gboolean setup_mbm(struct modem_info *modem)
 
 	DBG("%s", modem->syspath);
 
-	for (list = modem->devices; list; list = list->next) {
+	for (list = modem->devices; list; list = g_slist_next(list)) {
 		struct device_info *info = list->data;
 
 		DBG("%s %s %s %s %s", info->devnode, info->interface,
@@ -162,7 +162,7 @@ static gboolean setup_hso(struct modem_info *modem)
 
 	DBG("%s", modem->syspath);
 
-	for (list = modem->devices; list; list = list->next) {
+	for (list = modem->devices; list; list = g_slist_next(list)) {
 		struct device_info *info = list->data;
 
 		DBG("%s %s %s %s %s", info->devnode, info->interface,
@@ -201,7 +201,7 @@ static gboolean setup_gobi(struct modem_info *modem)
 
 	DBG("%s", modem->syspath);
 
-	for (list = modem->devices; list; list = list->next) {
+	for (list = modem->devices; list; list = g_slist_next(list)) {
 		struct device_info *info = list->data;
 
 		DBG("%s %s %s %s", info->devnode, info->interface,
@@ -241,7 +241,7 @@ static gboolean setup_sierra(struct modem_info *modem)
 
 	DBG("%s", modem->syspath);
 
-	for (list = modem->devices; list; list = list->next) {
+	for (list = modem->devices; list; list = g_slist_next(list)) {
 		struct device_info *info = list->data;
 
 		DBG("%s %s %s %s %s", info->devnode, info->interface,
@@ -294,7 +294,7 @@ static gboolean setup_huawei(struct modem_info *modem)
 
 	DBG("%s", modem->syspath);
 
-	for (list = modem->devices; list; list = list->next) {
+	for (list = modem->devices; list; list = g_slist_next(list)) {
 		struct device_info *info = list->data;
 
 		DBG("%s %s %s %s", info->devnode, info->interface,
@@ -365,7 +365,7 @@ static gboolean setup_speedup(struct modem_info *modem)
 
 	DBG("%s", modem->syspath);
 
-	for (list = modem->devices; list; list = list->next) {
+	for (list = modem->devices; list; list = g_slist_next(list)) {
 		struct device_info *info = list->data;
 
 		DBG("%s %s %s %s", info->devnode, info->interface,
@@ -400,7 +400,7 @@ static gboolean setup_linktop(struct modem_info *modem)
 
 	DBG("%s", modem->syspath);
 
-	for (list = modem->devices; list; list = list->next) {
+	for (list = modem->devices; list; list = g_slist_next(list)) {
 		struct device_info *info = list->data;
 
 		DBG("%s %s %s %s", info->devnode, info->interface,
@@ -432,7 +432,7 @@ static gboolean setup_icera(struct modem_info *modem)
 
 	DBG("%s", modem->syspath);
 
-	for (list = modem->devices; list; list = list->next) {
+	for (list = modem->devices; list; list = g_slist_next(list)) {
 		struct device_info *info = list->data;
 
 		DBG("%s %s %s %s", info->devnode, info->interface,
@@ -476,7 +476,7 @@ static gboolean setup_alcatel(struct modem_info *modem)
 
 	DBG("%s", modem->syspath);
 
-	for (list = modem->devices; list; list = list->next) {
+	for (list = modem->devices; list; list = g_slist_next(list)) {
 		struct device_info *info = list->data;
 
 		DBG("%s %s %s %s", info->devnode, info->interface,
@@ -516,7 +516,7 @@ static gboolean setup_novatel(struct modem_info *modem)
 
 	DBG("%s", modem->syspath);
 
-	for (list = modem->devices; list; list = list->next) {
+	for (list = modem->devices; list; list = g_slist_next(list)) {
 		struct device_info *info = list->data;
 
 		DBG("%s %s %s %s", info->devnode, info->interface,
@@ -556,7 +556,7 @@ static gboolean setup_nokia(struct modem_info *modem)
 
 	DBG("%s", modem->syspath);
 
-	for (list = modem->devices; list; list = list->next) {
+	for (list = modem->devices; list; list = g_slist_next(list)) {
 		struct device_info *info = list->data;
 
 		DBG("%s %s %s %s", info->devnode, info->interface,
@@ -596,7 +596,7 @@ static gboolean setup_telit(struct modem_info *modem)
 
 	DBG("%s", modem->syspath);
 
-	for (list = modem->devices; list; list = list->next) {
+	for (list = modem->devices; list; list = g_slist_next(list)) {
 		struct device_info *info = list->data;
 
 		DBG("%s %s %s %s", info->devnode, info->interface,
@@ -652,7 +652,7 @@ static gboolean setup_telitqmi(struct modem_info *modem)
 
 	DBG("%s", modem->syspath);
 
-	for (list = modem->devices; list; list = list->next) {
+	for (list = modem->devices; list; list = g_slist_next(list)) {
 		struct device_info *info = list->data;
 
 		DBG("%s %s %s %s %s", info->devnode, info->interface,
@@ -689,7 +689,7 @@ static gboolean setup_simcom(struct modem_info *modem)
 
 	DBG("%s", modem->syspath);
 
-	for (list = modem->devices; list; list = list->next) {
+	for (list = modem->devices; list; list = g_slist_next(list)) {
 		struct device_info *info = list->data;
 
 		DBG("%s %s %s %s", info->devnode, info->interface,
@@ -742,7 +742,7 @@ static gboolean setup_zte(struct modem_info *modem)
 	else
 		modem_intf = "03";
 
-	for (list = modem->devices; list; list = list->next) {
+	for (list = modem->devices; list; list = g_slist_next(list)) {
 		struct device_info *info = list->data;
 
 		DBG("%s %s %s %s", info->devnode, info->interface,
@@ -784,7 +784,7 @@ static gboolean setup_samsung(struct modem_info *modem)
 
 	DBG("%s", modem->syspath);
 
-	for (list = modem->devices; list; list = list->next) {
+	for (list = modem->devices; list; list = g_slist_next(list)) {
 		struct device_info *info = list->data;
 
 		DBG("%s %s %s %s", info->devnode, info->interface,
@@ -814,7 +814,7 @@ static gboolean setup_quectel(struct modem_info *modem)
 
 	DBG("%s", modem->syspath);
 
-	for (list = modem->devices; list; list = list->next) {
+	for (list = modem->devices; list; list = g_slist_next(list)) {
 		struct device_info *info = list->data;
 
 		DBG("%s %s %s %s", info->devnode, info->interface,
@@ -948,7 +948,7 @@ static gboolean setup_ublox(struct modem_info *modem)
 
 	DBG("%s", modem->syspath);
 
-	for (list = modem->devices; list; list = list->next) {
+	for (list = modem->devices; list; list = g_slist_next(list)) {
 		struct device_info *info = list->data;
 
 		DBG("%s %s %s %s", info->devnode, info->interface,
@@ -1009,7 +1009,7 @@ static gboolean setup_gemalto(struct modem_info* modem)
 
 	DBG("%s", modem->syspath);
 
-	for (list = modem->devices; list; list = list->next) {
+	for (list = modem->devices; list; list = g_slist_next(list)) {
 		struct device_info *info = list->data;
 
 		DBG("%s %s %s %s %s", info->devnode, info->interface,
@@ -1130,7 +1130,7 @@ static void destroy_modem(gpointer data)
 
 	switch (modem->type) {
 	case MODEM_TYPE_USB:
-		for (list = modem->devices; list; list = list->next) {
+		for (list = modem->devices; list; list = g_slist_next(next)) {
 			struct device_info *info = list->data;
 
 			DBG("%s", info->devnode);
@@ -1158,7 +1158,7 @@ static gboolean check_remove(gpointer key, gpointer value, gpointer user_data)
 	const char *devpath = user_data;
 	GSList *list;
 
-	for (list = modem->devices; list; list = list->next) {
+	for (list = modem->devices; list; list = g_slist_next(list)) {
 		struct device_info *info = list->data;
 
 		if (g_strcmp0(info->devpath, devpath) == 0)
