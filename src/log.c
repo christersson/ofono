@@ -30,6 +30,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <syslog.h>
+#include <signal.h>
+#include <limits.h>
 #ifdef __GLIBC__
 #include <execinfo.h>
 #endif
