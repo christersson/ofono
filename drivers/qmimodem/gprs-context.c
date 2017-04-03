@@ -24,6 +24,7 @@
 #endif
 
 #include <string.h>
+#include <arpa/inet.h>
 
 #include <ofono/log.h>
 #include <ofono/modem.h>
@@ -75,20 +76,54 @@ static void get_settings_cb(struct qmi_result *result, void *user_data)
 	struct cb_data *cbd = user_data;
 	ofono_gprs_context_cb_t cb = cbd->cb;
 	struct ofono_gprs_context *gc = cbd->user;
+	struct gprs_context_data *data = ofono_gprs_context_get_data(gc);
 	struct ofono_modem *modem;
 	const char *interface;
 	uint8_t pdp_type, ip_family;
+	uint32_t ip_addr;
+	struct in_addr addr;
+	char* straddr;
+	char* apn;
 
 	DBG("");
 
 	if (qmi_result_set_error(result, NULL))
 		goto done;
 
+	apn = qmi_result_get_string(result, QMI_WDS_RESULT_APN);
+	if (apn) {
+		DBG("APN: %s", apn);
+	}
 	if (qmi_result_get_uint8(result, QMI_WDS_RESULT_PDP_TYPE, &pdp_type))
 		DBG("PDP type %d", pdp_type);
 
 	if (qmi_result_get_uint8(result, QMI_WDS_RESULT_IP_FAMILY, &ip_family))
 		DBG("IP family %d", ip_family);
+
+	if (qmi_result_get_uint32(result,QMI_WDS_RESULT_IP_ADDRESS, &ip_addr)) {
+
+		addr.s_addr = htonl(ip_addr);
+		straddr = inet_ntoa(addr);
+		DBG("IP addr: %s", straddr);
+		ofono_gprs_context_set_ipv4_address(gc, straddr, 1);
+	}
+	if (qmi_result_get_uint32(result,QMI_WDS_RESULT_GATEWAY, &ip_addr)) {
+
+		addr.s_addr = htonl(ip_addr);
+		straddr = inet_ntoa(addr);
+		DBG("Gateway: %s", straddr);
+		ofono_gprs_context_set_ipv4_gateway(gc, straddr);
+	}
+	if (qmi_result_get_uint32(result,QMI_WDS_RESULT_PRIMARY_DNS, &ip_addr)) {
+
+		addr.s_addr = htonl(ip_addr);
+		DBG("Primary DNS: %s", inet_ntoa(addr));
+	}
+	if (qmi_result_get_uint32(result,QMI_WDS_RESULT_SECONDARY_DNS, &ip_addr)) {
+
+		addr.s_addr = htonl(ip_addr);
+		DBG("Secondary DNS: %s", inet_ntoa(addr));
+	}
 
 done:
 	modem = ofono_gprs_context_get_modem(gc);
@@ -97,6 +132,8 @@ done:
 	ofono_gprs_context_set_interface(gc, interface);
 
 	CALLBACK_WITH_SUCCESS(cb, cbd->data);
+
+	g_free(apn);
 
 	g_free(cbd);
 }
