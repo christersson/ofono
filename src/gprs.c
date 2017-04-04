@@ -1721,6 +1721,7 @@ static void gprs_netreg_update(struct ofono_gprs *gprs)
 
 	if (ofono_netreg_get_technology(gprs->netreg) ==
 			ACCESS_TECHNOLOGY_EUTRAN)
+		DBG("************ JONAS ********");
 		/*
 		 * For LTE we set attached status only on successful
 		 * context activation.

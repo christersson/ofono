@@ -131,6 +131,8 @@ done:
 
 	ofono_gprs_context_set_interface(gc, interface);
 
+//	ofono_gprs_cid_activated(gc, data->active_context, apn);
+
 	CALLBACK_WITH_SUCCESS(cb, cbd->data);
 
 	g_free(apn);
@@ -156,7 +158,7 @@ static void start_net_cb(struct qmi_result *result, void *user_data)
 	if (!qmi_result_get_uint32(result, QMI_WDS_RESULT_PKT_HANDLE, &handle))
 		goto error;
 
-	DBG("packet handle %d", handle);
+	DBG("packet handle 0x%08x", handle);
 
 	data->pkt_handle = handle;
 

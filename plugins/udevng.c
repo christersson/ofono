@@ -229,6 +229,9 @@ static gboolean setup_qmiwwan(struct modem_info *modem)
 	if (gps)
 		ofono_modem_set_string(modem->modem, "GPS", gps);
 
+//	ofono_modem_set_boolean(modem->modem, "ForceSimLegacy", TRUE);
+	ofono_modem_set_boolean(modem->modem, "AlwaysOnline", TRUE);
+
 	return TRUE;
 }
 
@@ -1171,7 +1174,7 @@ static void destroy_modem(gpointer data)
 
 	switch (modem->type) {
 	case MODEM_TYPE_USB:
-		for (list = modem->devices; list; list = g_slist_next(next)) {
+		for (list = modem->devices; list; list = g_slist_next(list)) {
 			struct device_info *info = list->data;
 
 			DBG("%s", info->devnode);
@@ -1335,20 +1338,26 @@ static void add_device(const char *syspath, const char *devname,
 	struct udev_device *parent;
 
 	devpath = udev_device_get_syspath(device);
-	if (devpath == NULL)
+	if (devpath == NULL) {
+		DBG("no devpath");
 		return;
+	}
 
 	devnode = udev_device_get_devnode(device);
 	if (devnode == NULL) {
 		devnode = udev_device_get_property_value(device, "INTERFACE");
-		if (devnode == NULL)
+		if (devnode == NULL) {
+			DBG("no devpath");
 			return;
+		}
 	}
 
 	usb_interface = udev_device_get_parent_with_subsystem_devtype(device,
 						"usb", "usb_interface");
-	if (usb_interface == NULL)
+	if (usb_interface == NULL) {
+		DBG("no parent interface");
 		return;
+	}
 
 	modem = g_hash_table_lookup(modem_list, syspath);
 	if (modem == NULL) {
@@ -1446,8 +1455,8 @@ static struct {
 	{ "mbm",	"cdc_ether",	"0930"		},
 	{ "mbm",	"cdc_ncm",	"0930"		},
 	{ "hso",	"hso"				},
-	{ "gobi",	"qmi_wwan"			},
-	{ "gobi",	"qcserial"			},
+/*	{ "gobi",	"qmi_wwan"			},
+	{ "gobi",	"qcserial"			},*/
 	{ "sierra",	"qmi_wwan",	"1199"		},
 	{ "sierra",	"qcserial",	"1199"		},
 	{ "sierra",	"sierra"			},
@@ -1561,6 +1570,8 @@ static void check_usb_device(struct udev_device *device)
 
 		if (driver == NULL)
 			return;
+	} else {
+		DBG("Got udev configured OFONO_DRIVER");
 	}
 
 	add_device(syspath, devname, driver, vendor, model, device);

@@ -702,6 +702,8 @@ static void sim_state_watch(enum ofono_sim_state new_state, void *user)
 {
 	struct ofono_modem *modem = user;
 
+	DBG("");
+
 	switch (new_state) {
 	case OFONO_SIM_STATE_NOT_PRESENT:
 		modem_change_state(modem, MODEM_STATE_PRE_SIM);
@@ -713,6 +715,8 @@ static void sim_state_watch(enum ofono_sim_state new_state, void *user)
 		break;
 	case OFONO_SIM_STATE_READY:
 		modem_change_state(modem, MODEM_STATE_OFFLINE);
+
+		DBG("sim state ready");
 
 		/* Modem is always online, proceed to online state. */
 		if (modem_is_always_online(modem) == TRUE)

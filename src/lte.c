@@ -344,6 +344,7 @@ void ofono_lte_register(struct ofono_lte *lte)
 	struct ofono_sim *sim = __ofono_atom_find(OFONO_ATOM_TYPE_SIM, modem);
 	const char *imsi = ofono_sim_get_imsi(sim);
 
+	/* FIXME: poor error message */
 	if (imsi == NULL) {
 		ofono_error("No sim atom required for registering LTE atom.");
 		return;
