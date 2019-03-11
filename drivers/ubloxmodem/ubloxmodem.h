@@ -27,6 +27,7 @@ enum ublox_flags {
 	UBLOX_F_TOBY_L2		= (1 << 0),
 	UBLOX_F_TOBY_L4		= (1 << 1),
 	UBLOX_F_HAVE_USBCONF	= (1 << 2),
+	UBLOX_F_NO_VOICECALL	= (1 << 3),
 };
 
 struct ublox_model {
