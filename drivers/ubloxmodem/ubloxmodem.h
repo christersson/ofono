@@ -26,8 +26,9 @@
 enum ublox_flags {
 	UBLOX_F_TOBY_L2		= (1 << 0),
 	UBLOX_F_TOBY_L4		= (1 << 1),
-	UBLOX_F_HAVE_USBCONF	= (1 << 2),
-	UBLOX_F_NO_VOICECALL	= (1 << 3),
+	UBLOX_F_SARA_R4		= (1 << 2),
+	UBLOX_F_HAVE_USBCONF	= (1 << 3),
+	UBLOX_F_NO_VOICECALL	= (1 << 4),
 };
 
 struct ublox_model {
@@ -40,6 +41,7 @@ const struct ublox_model *ublox_model_from_id(int id);
 int ublox_model_to_id(const struct ublox_model *model);
 int ublox_is_toby_l2(const struct ublox_model *model);
 int ublox_is_toby_l4(const struct ublox_model *model);
+int ublox_is_sara_r4(const struct ublox_model *model);
 
 extern void ublox_gprs_context_init(void);
 extern void ublox_gprs_context_exit(void);

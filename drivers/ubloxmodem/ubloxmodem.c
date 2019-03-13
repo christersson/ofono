@@ -77,6 +77,22 @@ const struct ublox_model ublox_models[] = {
 		.name = "TOBY-L4906",
 		.flags = UBLOX_F_TOBY_L4,
 	},
+	/* SARA R4/N4 series */
+	{
+		/* LTE M1, LTE M1/NB1 */
+		.name = "SARA-R410M-02B",
+		.flags = UBLOX_F_SARA_R4|UBLOX_F_NO_VOICECALL,
+	},
+	{
+		/* LTE M1+GPRS */
+		.name = "SARA-R412M-02B",
+		.flags = UBLOX_F_SARA_R4|UBLOX_F_NO_VOICECALL,
+	},
+	{
+		/* LTE NB1 */
+		.name = "SARA-N410-02B",
+		.flags = UBLOX_F_SARA_R4|UBLOX_F_NO_VOICECALL,
+	},
 	{ /* sentinel */ },
 };
 
@@ -110,6 +126,14 @@ int ublox_is_toby_l2(const struct ublox_model *model)
 int ublox_is_toby_l4(const struct ublox_model *model)
 {
 	return model->flags & UBLOX_F_TOBY_L4;
+}
+
+/*
+ * SARA R4/N4 series modems
+ */
+int ublox_is_sara_r4(const struct ublox_model* model)
+{
+	return model->flags & UBLOX_F_SARA_R4;
 }
 
 static int ubloxmodem_init(void)
