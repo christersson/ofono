@@ -1104,6 +1104,10 @@ static gboolean setup_ublox(struct modem_info *modem)
 				g_strcmp0(info->interface, "10/0/0") == 0 ||
 				g_strcmp0(info->interface, "224/1/3") == 0) {
 			net = info->devnode;
+		} else if (g_strcmp0(info->interface, "255/255/255") == 0) {
+			/* SARA R4/N4 */
+			if (g_strcmp0(info->number, "02") == 0)
+				aux = info->devnode;
 		}
 	}
 
@@ -1702,6 +1706,7 @@ static struct {
 	{ "ublox",	"cdc_acm",	"1546", "1102"	},
 	{ "ublox",	"rndis_host",	"1546", "1146"	},
 	{ "ublox",	"cdc_acm",	"1546", "1146"	},
+	{ "ublox",	"option",	"05c6", "90b2"	},
 	{ "gemalto",	"option",	"1e2d",	"0053"	},
 	{ "gemalto",	"cdc_wdm",	"1e2d",	"0053"	},
 	{ "gemalto",	"qmi_wwan",	"1e2d",	"0053"	},
