@@ -1122,6 +1122,45 @@ static gboolean setup_ublox(struct modem_info *modem)
 	return TRUE;
 }
 
+static gboolean setup_ubloxqmi(struct modem_info *modem)
+{
+	const char *qmi = NULL, *net = NULL, *gps = NULL, *aux = NULL;
+	GSList *list;
+
+	DBG("%s", modem->syspath);
+
+	for (list = modem->devices; list; list = g_slist_next(list)) {
+		struct device_info *info = list->data;
+
+		DBG("%s %s %s %s %s", info->devnode, info->interface,
+				info->number, info->label, info->subsystem);
+
+		if (g_strcmp0(info->interface, "255/255/255") == 0 &&
+				g_strcmp0(info->number, "03") == 0) {
+			if (g_strcmp0(info->subsystem, "net") == 0)
+				net = info->devnode;
+			else if (g_strcmp0(info->subsystem, "usbmisc") == 0)
+				qmi = info->devnode;
+		}
+	}
+
+	DBG("qmi=%s net=%s", qmi, net);
+
+	if (qmi == NULL || net == NULL)
+		return FALSE;
+
+	DBG("qmi=%s net=%s", qmi, net);
+
+	ofono_modem_set_string(modem->modem, "Device", qmi);
+	ofono_modem_set_string(modem->modem, "NetworkInterface", net);
+
+	DBG("gps=%s aux=%s", gps, aux);
+
+	ofono_modem_set_driver(modem->modem, "gobi");
+
+	return TRUE;
+}
+
 static gboolean setup_gemalto(struct modem_info* modem)
 {
 	const char *app = NULL, *gps = NULL, *mdm = NULL,
@@ -1316,6 +1355,7 @@ static struct {
 	{ "quectel",	setup_quectel	},
 	{ "quectelqmi",	setup_quectelqmi},
 	{ "ublox",	setup_ublox	},
+	{ "ubloxqmi",	setup_ubloxqmi	},
 	{ "gemalto",	setup_gemalto	},
 	{ "xmm7xxx",	setup_xmm7xxx	},
 	{ "mbim",	setup_mbim	},
@@ -1702,6 +1742,7 @@ static struct {
 	{ "ublox",	"cdc_acm",	"1546", "1102"	},
 	{ "ublox",	"rndis_host",	"1546", "1146"	},
 	{ "ublox",	"cdc_acm",	"1546", "1146"	},
+	{ "ubloxqmi",	"qmi_wwan",	"05c6", "90b2"	},
 	{ "gemalto",	"option",	"1e2d",	"0053"	},
 	{ "gemalto",	"cdc_wdm",	"1e2d",	"0053"	},
 	{ "gemalto",	"qmi_wwan",	"1e2d",	"0053"	},
