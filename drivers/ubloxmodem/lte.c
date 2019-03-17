@@ -86,6 +86,8 @@ static void at_lte_set_default_attach_info_cb(gboolean ok, GAtResult *result,
 		cid = 4;
 	} else if (ublox_is_toby_l4(ldd->model)) {
 		cid = 1;
+	} else if (ublox_is_sara_r4(ldd->model)) {
+		cid = 1;
 	} else {
 		ofono_error("Unknown model; "
 			"unable to determine EPS default bearer CID");
@@ -146,6 +148,15 @@ static void ublox_lte_set_default_attach_info(const struct ofono_lte *lte,
 				info->apn);
 		else
 			snprintf(buf, sizeof(buf), "AT+CGDCONT=1");
+	} else if (ublox_is_sara_r4(ldd->model)) {
+		if (strlen(info->apn) > 0)
+			snprintf(buf, sizeof(buf), "AT+CGDCONT=1,%s,\"%s\"",
+				at_util_gprs_proto_to_pdp_type(info->proto),
+				info->apn);
+		else
+			snprintf(buf, sizeof(buf), "AT+CGDCONT=1");
+	} else {
+		goto fail;
 	}
 
 	if (g_at_chat_send(ldd->chat, buf, none_prefix,
@@ -153,6 +164,7 @@ static void ublox_lte_set_default_attach_info(const struct ofono_lte *lte,
 			cbd, cb_data_unref) > 0)
 		return;
 
+fail:
 	cb_data_unref(cbd);
 	CALLBACK_WITH_FAILURE(cb, data);
 }
