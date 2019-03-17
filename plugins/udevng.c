@@ -1106,7 +1106,7 @@ static gboolean setup_ublox(struct modem_info *modem)
 			net = info->devnode;
 		} else if (g_strcmp0(info->interface, "255/255/255") == 0) {
 			/* SARA R4/N4 */
-			if (g_strcmp0(info->number, "02") == 0)
+			if (g_strcmp0(info->number, "00") == 0)
 				aux = info->devnode;
 		}
 	}
